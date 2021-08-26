@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import Select, { components, OptionsType } from "react-select";
 import { groupedOptions } from "./data";
