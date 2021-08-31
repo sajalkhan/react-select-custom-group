@@ -1,10 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import Select, { components, OptionsType } from "react-select";
-import { groupedOptions } from "./data";
+import Select, { components } from "react-select";
 import { Icon } from "../icon";
+import { mapModifiers, ModifierProp } from "../../libs/component";
 import "./index.scss";
-// import { customStyle, optionStyle } from './customStyle';
+
+export interface SelectProps {
+  placeholder?: string;
+  modifiers?: ModifierProp<"invalid">;
+  disabled?: boolean;
+  groupedOptions: {
+    label: string;
+    options: {
+      label: string;
+      value: string;
+      alert?: boolean;
+    }[];
+  }[];
+  handleModal?: () => void;
+}
 
 const DropdownIndicator = (props: any) => {
   return (
@@ -20,38 +34,44 @@ const DropdownIndicator = (props: any) => {
   );
 };
 
-const handleChange = (value: OptionsType<any>) => {
-  console.log("input -- ", value);
-};
-
-export const Selects: React.FC = () => {
-  const formatOptionLabel = ({ label, menu }: any) => (
+export const Selects: React.FC<SelectProps> = ({
+  groupedOptions,
+  modifiers,
+  placeholder,
+  disabled = false,
+  handleModal,
+}) => {
+  const formatOptionLabel = ({ label, alert }: any) => (
     <div className="a-react-select--item">
       <div>
         <Icon name="add-item" />
         <span>{label}</span>
       </div>
-      {menu && <Icon name="alert" onClick={() => alert("Are you sure?")} />}
+      {alert && (
+        <Icon name="alert" onClick={() => handleModal && handleModal()} />
+      )}
     </div>
   );
 
+  const className = mapModifiers("a-react-select", modifiers);
+
   return (
-    <>
-      <Select
-        isMulti
-        isClearable={false}
-        className="a-react-select"
-        classNamePrefix="a-react-select"
-        defaultValue={[
-          groupedOptions[0]?.options[0],
-          groupedOptions[1]?.options[0],
-        ]}
-        components={{ DropdownIndicator }}
-        closeMenuOnSelect={false}
-        options={groupedOptions}
-        onChange={(e) => handleChange(e)}
-        formatOptionLabel={formatOptionLabel}
-      />
-    </>
+    <Select
+      isMulti
+      isClearable={false}
+      className={className}
+      classNamePrefix={className}
+      defaultValue={[
+        groupedOptions[0]?.options[0],
+        groupedOptions[1]?.options[0],
+      ]}
+      components={{ DropdownIndicator }}
+      closeMenuOnSelect={false}
+      options={groupedOptions}
+      getOptionValue={(option) => option.label}
+      formatOptionLabel={formatOptionLabel}
+      placeholder={placeholder}
+      isDisabled={disabled}
+    />
   );
 };

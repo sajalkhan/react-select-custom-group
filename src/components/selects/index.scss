@@ -1,39 +1,123 @@
-//TODO: here we override customStyle that's why we have to use many !important property
-.a-react-select {
-  &__multi-value {
-    background-color: #7b6d81 !important;
-    i {
-      display: none;
-    }
+@import "../../styles/index.scss";
 
-    &__remove,
-    span {
-      margin-left: 0 !important;
-      font-size: 11px;
-      font-weight: xd-font-weight("bold");
-      line-height: 16px;
-      color: #ffffff;
+@mixin multiValue {
+  margin: 0 !important;
+  margin-right: 8px !important;
+  background-color: $color-primary-grey !important;
+
+  i {
+    display: none;
+  }
+
+  span {
+    margin-left: 0 !important;
+    font-size: 11px;
+    font-weight: xd-font-weight("bold");
+    line-height: 16px;
+    color: $color-white;
+  }
+
+  &__remove > svg {
+    display: none;
+  }
+
+  &__remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin: 0 6px 0 10px;
+    background: url("../../images/icons/close-small.svg") no-repeat;
+    transform: translate(0, 6px);
+
+    &:hover {
+      cursor: pointer;
+      background-color: transparent !important;
+    }
+  }
+}
+
+.a-react-select {
+  $dlur-input: ".css-b8ldur-Input";
+
+  &--is-disabled {
+    pointer-events: auto !important;
+  }
+
+  &__multi-value {
+    $root: &;
+    @include multiValue;
+
+    &--is-disabled {
+      background-color: $color-grey-1 !important;
+
+      #{$root}__remove:hover {
+        pointer-events: none !important;
+        cursor: no-drop;
+      }
     }
   }
 
+  &--invalid__multi-value {
+    @include multiValue;
+  }
+
+  &__placeholder,
+  &--invalid__placeholder {
+    font-size: 16px;
+    color: $color-grey-1 !important;
+  }
+
+  &__indicator {
+    padding: 10px !important;
+  }
+
+  &__indicator-separator,
+  &--invalid__indicator-separator {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
   &__control {
-    border: 1px solid gray !important;
+    min-height: 44px !important;
+    border: 1px solid $color-line-light-gray !important;
+    border-radius: 8px !important;
     box-shadow: none !important;
 
     &:hover,
     &:focus-within {
-      border: 1px solid #b60081 !important;
+      border: 1px solid $color-primary-purple !important;
+    }
+
+    &--is-disabled {
+      cursor: no-drop !important;
+      background-color: $color-grey-2 !important;
+
+      &:hover {
+        border: 1px solid $color-line-light-gray !important;
+      }
     }
   }
 
-  &__option {
+  &--invalid__control {
+    border: 1px solid $color-primary-red !important;
+    box-shadow: none !important;
+  }
+
+  &__option,
+  &--invalid__option {
     font-size: 14px;
-    background-color: #ffffff !important;
-    border-top: 1px solid #e8e9ed !important;
+    background-color: $color-white !important;
+    border-top: 1px solid $color-line-gray !important;
 
     &:hover,
     &:focus {
-      background-color: #f4f4f7 !important;
+      background-color: $color-base-whitesmoke !important;
+    }
+
+    &:first-child {
+      border-top: 2px solid $color-line-gray !important;
     }
   }
 
@@ -47,39 +131,46 @@
     }
   }
 
-  &__menu {
+  &__menu,
+  &--invalid__menu {
     padding: 5px;
     margin-top: -0.1px !important;
     border-radius: 8px !important;
 
     &-list {
       display: flex;
+      height: 230px;
 
       &::-webkit-scrollbar {
         width: 4px;
         height: 0;
       }
       &::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: transparent;
       }
       &::-webkit-scrollbar-thumb {
-        background: #888888;
+        background: $color-secondary-grey;
+        border-radius: 20px;
       }
       &::-webkit-scrollbar-thumb:hover {
-        background: #555555;
+        background: $color-secondary-grey;
       }
-      @media only screen and (max-width: 610px) {
+
+      @include sp() {
         flex-direction: column;
       }
     }
   }
 
-  &__group {
+  &__group,
+  &--invalid__group {
     width: 100%;
     padding: 0 20px 0 20px;
     &-heading {
+      margin-bottom: 8px !important;
       font-size: 12px !important;
-      font-weight: bold !important;
+      font-weight: xd-font-weight("bold") !important;
+      line-height: 17px;
     }
   }
 }
