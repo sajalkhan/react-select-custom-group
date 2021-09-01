@@ -42,6 +42,10 @@
   &__multi-value,
   &--invalid__multi-value {
     @include multiValue;
+
+    &--is-disabled {
+      background-color: $color-grey-1 !important;
+    }
   }
 
   &__placeholder,
@@ -72,7 +76,6 @@
     }
 
     &--is-disabled {
-      cursor: no-drop !important;
       background-color: $color-grey-2 !important;
 
       &:hover {
