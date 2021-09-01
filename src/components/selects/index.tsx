@@ -1,21 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import Select, { components } from "react-select";
 import { Icon } from "../icon";
 import { mapModifiers, ModifierProp } from "../../libs/component";
 import "./index.scss";
 
+type OptionTypes = {
+  label: string;
+  value: string;
+  alert?: boolean;
+};
+
 export interface SelectProps {
   placeholder?: string;
   modifiers?: ModifierProp<"invalid">;
   disabled?: boolean;
+  defaultItems?: OptionTypes[];
   groupedOptions: {
     label: string;
-    options: {
-      label: string;
-      value: string;
-      alert?: boolean;
-    }[];
+    options: OptionTypes[];
   }[];
   handleModal?: () => void;
 }
@@ -36,12 +38,13 @@ const DropdownIndicator = (props: any) => {
 
 export const Selects: React.FC<SelectProps> = ({
   groupedOptions,
+  defaultItems,
   modifiers,
   placeholder,
   disabled = false,
   handleModal,
 }) => {
-  const formatOptionLabel = ({ label, alert }: any) => (
+  const formatOptionLabel = ({ label, alert }: OptionTypes) => (
     <div className="a-react-select--item">
       <div>
         <Icon name="add-item" />
@@ -61,10 +64,7 @@ export const Selects: React.FC<SelectProps> = ({
       isClearable={false}
       className={className}
       classNamePrefix={className}
-      defaultValue={[
-        groupedOptions[0]?.options[0],
-        groupedOptions[1]?.options[0],
-      ]}
+      defaultValue={defaultItems}
       components={{ DropdownIndicator }}
       closeMenuOnSelect={false}
       options={groupedOptions}

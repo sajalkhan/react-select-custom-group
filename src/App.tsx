@@ -13,6 +13,10 @@ const App = () => {
         groupedOptions={groupedOptions}
         placeholder="選択してください。"
         handleModal={openModal}
+        defaultItems={[
+          groupedOptions[0]?.options[0],
+          groupedOptions[1]?.options[0],
+        ]}
       />
 
       <br />
@@ -21,6 +25,10 @@ const App = () => {
         groupedOptions={groupedOptions}
         placeholder="Please Select.."
         disabled={true}
+        defaultItems={[
+          groupedOptions[0]?.options[0],
+          groupedOptions[1]?.options[0],
+        ]}
       />
 
       <br />
