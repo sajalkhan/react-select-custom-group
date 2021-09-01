@@ -39,24 +39,7 @@
 }
 
 .a-react-select {
-  &--is-disabled {
-    pointer-events: auto !important;
-  }
-
-  &__multi-value {
-    $root: &;
-    @include multiValue;
-
-    &--is-disabled {
-      background-color: $color-grey-1 !important;
-
-      #{$root}__remove:hover {
-        pointer-events: none !important;
-        cursor: no-drop;
-      }
-    }
-  }
-
+  &__multi-value,
   &--invalid__multi-value {
     @include multiValue;
   }
