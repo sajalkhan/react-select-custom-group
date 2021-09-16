@@ -1,25 +1,25 @@
 import React from "react";
-import Select, { components } from "react-select";
+import Select, { components, ValueType, ActionMeta } from "react-select";
 import { Icon } from "../icon";
 import { mapModifiers, ModifierProp } from "../../libs/component";
+import { OptionTypes } from "../../App";
 import "./index.scss";
-
-type OptionTypes = {
-  label: string;
-  value: string;
-  alert?: boolean;
-};
 
 export interface SelectProps {
   placeholder?: string;
   modifiers?: ModifierProp<"invalid">;
   disabled?: boolean;
   defaultItems?: OptionTypes[];
+  defaultMenuIsOpen?: boolean;
   groupedOptions: {
     label: string;
     options: OptionTypes[];
   }[];
   handleModal?: () => void;
+  onChange?: (
+    value: ValueType<OptionTypes, boolean>,
+    actionMeta: ActionMeta<OptionTypes>
+  ) => void;
 }
 
 const DropdownIndicator = (props: any) => {
@@ -39,10 +39,12 @@ const DropdownIndicator = (props: any) => {
 export const Selects: React.FC<SelectProps> = ({
   groupedOptions,
   defaultItems,
+  defaultMenuIsOpen,
   modifiers,
   placeholder,
   disabled = false,
   handleModal,
+  onChange,
 }) => {
   const formatOptionLabel = ({ label, alert }: OptionTypes) => (
     <div className="a-react-select--item">
@@ -51,7 +53,13 @@ export const Selects: React.FC<SelectProps> = ({
         <span>{label}</span>
       </div>
       {alert && (
-        <Icon name="alert" onClick={() => handleModal && handleModal()} />
+        <Icon
+          name="alert"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleModal && handleModal();
+          }}
+        />
       )}
     </div>
   );
@@ -61,17 +69,20 @@ export const Selects: React.FC<SelectProps> = ({
   return (
     <Select
       isMulti
-      isClearable={false}
       className={className}
-      classNamePrefix={className}
-      defaultValue={defaultItems}
-      components={{ DropdownIndicator }}
-      closeMenuOnSelect={false}
-      options={groupedOptions}
-      getOptionValue={(option) => option.label}
-      formatOptionLabel={formatOptionLabel}
+      classNamePrefix={"a-react-select"}
       placeholder={placeholder}
+      defaultValue={defaultItems}
+      defaultMenuIsOpen={defaultMenuIsOpen}
+      options={groupedOptions}
+      getOptionValue={(option: { label: string }) => option.label}
       isDisabled={disabled}
+      isClearable={false}
+      closeMenuOnSelect={false}
+      components={{ DropdownIndicator }}
+      formatOptionLabel={formatOptionLabel}
+      onChange={onChange}
+      noOptionsMessage={() => "選択肢がありません"}
     />
   );
 };

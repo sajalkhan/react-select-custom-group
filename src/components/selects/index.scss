@@ -1,8 +1,8 @@
 @import "../../styles/index.scss";
 
 @mixin multiValue {
-  margin: 0 !important;
-  margin-right: 8px !important;
+  min-height: 28px !important;
+  margin: 3px !important;
   background-color: $color-primary-grey !important;
 
   i {
@@ -13,7 +13,7 @@
     margin-left: 0 !important;
     font-size: 11px;
     font-weight: xd-font-weight("bold");
-    line-height: 16px;
+    line-height: 28px;
     color: $color-white;
   }
 
@@ -29,7 +29,7 @@
     height: 18px;
     margin: 0 6px 0 10px;
     background: url("../../images/icons/close-small.svg") no-repeat;
-    transform: translate(0, 6px);
+    transform: translate(0, 8px);
 
     &:hover {
       cursor: pointer;
@@ -39,6 +39,10 @@
 }
 
 .a-react-select {
+  $root-parent: &;
+  $dur-input: ".css-b8ldur-Input"; // Other two state on focus come from react-select
+  $disabled-input: ".css-1bwsx9e-Input"; // Disabled state on focus come from react-select
+
   &__multi-value,
   &--invalid__multi-value {
     @include multiValue;
@@ -46,6 +50,10 @@
     &--is-disabled {
       background-color: $color-grey-1 !important;
     }
+  }
+
+  &__multi-value {
+    cursor: pointer;
   }
 
   &__placeholder,
@@ -97,6 +105,7 @@
 
     &:hover,
     &:focus {
+      color: $color-primary-purple !important;
       background-color: $color-base-whitesmoke !important;
     }
 
@@ -109,17 +118,28 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
 
     span {
       margin-left: 10px;
+    }
+    .a-icon--add-item {
+      width: 20px;
+      height: 20px;
+    }
+    .a-icon--alert {
+      width: 18px;
+      height: 18px;
     }
   }
 
   &__menu,
   &--invalid__menu {
-    padding: 5px;
-    margin-top: -0.1px !important;
+    padding: 0 5px 0 0;
+    margin-top: 0 !important;
     border-radius: 8px !important;
+    box-shadow: 1px 0 1px 0 hsl(0deg 0% 0% / 10%),
+      0 4px 11px hsl(0deg 0% 0% / 10%) !important;
 
     &-list {
       display: flex;
@@ -149,12 +169,43 @@
   &__group,
   &--invalid__group {
     width: 100%;
-    padding: 0 20px 0 20px;
+    padding: 16px 20px 0 20px !important;
     &-heading {
-      margin-bottom: 8px !important;
+      padding: 0 0 9px !important;
       font-size: 12px !important;
       font-weight: xd-font-weight("bold") !important;
       line-height: 17px;
     }
+  }
+
+  &__value-container {
+    min-height: 28px;
+    padding: 4px 12px !important;
+    &#{$root-parent}__value-container--has-value {
+      padding: 4px 6px !important;
+    }
+  }
+
+  &__multi-value__label,
+  &--invalid__multi-value__label {
+    min-height: 28px;
+    padding: 0 0 0 8px !important;
+  }
+  &__multi-value__remove,
+  &--invalid__multi-value__remove {
+    transform: translate(0, 6px) !important;
+  }
+
+  #{$dur-input} {
+    padding: 0 !important;
+    margin: 0 4px !important;
+    &#{$root-parent}__value-container--has-value & {
+      margin: 7px 4px 0 !important;
+    }
+  }
+
+  #{$disabled-input} {
+    padding: 0 !important;
+    margin: 0 4px !important;
   }
 }
