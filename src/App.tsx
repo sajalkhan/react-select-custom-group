@@ -61,7 +61,7 @@ const App = () => {
       </label>
       {items.map((i: string, indx: number) => (
         <ul key={indx}>
-          <li>{i}</li>
+          <li style={{ fontWeight: "bold" }}>{i}</li>
         </ul>
       ))}
       <br />
