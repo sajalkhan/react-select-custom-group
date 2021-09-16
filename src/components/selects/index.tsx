@@ -15,7 +15,7 @@ export interface SelectProps {
     label: string;
     options: OptionTypes[];
   }[];
-  handleModal?: () => void;
+  handleModal?: (value: string) => void;
   onChange?: (
     value: ValueType<OptionTypes, boolean>,
     actionMeta: ActionMeta<OptionTypes>
@@ -57,7 +57,7 @@ export const Selects: React.FC<SelectProps> = ({
           name="alert"
           onClick={(e) => {
             e.stopPropagation();
-            handleModal && handleModal();
+            handleModal && handleModal(label);
           }}
         />
       )}

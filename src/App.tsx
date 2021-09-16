@@ -11,8 +11,8 @@ export interface OptionTypes {
 const App = () => {
   const [items, setSelectedItems] = React.useState<string[]>([]);
 
-  const openModal = () => {
-    alert("click -- ");
+  const openModal = (value: string) => {
+    alert(value);
   };
 
   const handleSelecteditems = (optionSelected: any) => {
@@ -27,7 +27,6 @@ const App = () => {
   return (
     <div style={{ marginTop: "10%", padding: "50px" }}>
       <Selects
-        onChange={handleSelecteditems}
         groupedOptions={groupedOptions}
         placeholder="選択してください。"
         handleModal={openModal}
@@ -36,15 +35,6 @@ const App = () => {
           groupedOptions[1]?.options[0],
         ]}
       />
-      <br />
-      <label>Selected Items: </label>
-
-      {items.map((i: string, indx: number) => (
-        <p key={indx}>
-          <b>{i}</b>
-        </p>
-      ))}
-      <br />
       <br />
 
       <Selects
@@ -57,11 +47,24 @@ const App = () => {
         ]}
       />
       <br />
+
       <Selects
+        onChange={handleSelecteditems}
         groupedOptions={groupedOptions}
         placeholder="Please Select.."
         modifiers="invalid"
       />
+      <br />
+
+      <label style={{ color: "green", fontSize: "20px" }}>
+        Selected Items:
+      </label>
+      {items.map((i: string, indx: number) => (
+        <ol key={indx}>
+          <li style={{ fontWeight: "bold" }}>{i}</li>
+        </ol>
+      ))}
+      <br />
     </div>
   );
 };
