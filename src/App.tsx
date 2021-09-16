@@ -60,9 +60,9 @@ const App = () => {
         Selected Items:
       </label>
       {items.map((i: string, indx: number) => (
-        <ol key={indx}>
-          <li style={{ fontWeight: "bold" }}>{i}</li>
-        </ol>
+        <ul key={indx}>
+          <li>{i}</li>
+        </ul>
       ))}
       <br />
     </div>
