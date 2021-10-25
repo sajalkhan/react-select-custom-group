@@ -1,0 +1,67 @@
+.modal {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+
+  &__body {
+    width: 30%;
+    height: calc(100% - 75%);
+    padding: 15px;
+    margin-left: 1%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: linear-gradient(to right, #c2e59c, #64b3f4);
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    box-shadow: 5px 5px 5px #000;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    top: 50%;
+
+    &__cancle,
+    &__cancle:focus,
+    &__ok,
+    &__ok:focus {
+      color: #fff;
+      border: 0;
+      outline: 0;
+      height: 30px;
+      font-size: calc(100% - 10%);
+      width: calc(100% - 70%);
+      margin: 5px;
+      transition: background 0.3s ease-in;
+    }
+
+    &__cancle {
+      background: #27ae60;
+      &:hover {
+        background: #2ecc71;
+      }
+    }
+
+    &__ok {
+      background: #c0392b;
+      &:hover {
+        background: #e74c3c;
+      }
+    }
+  }
+}

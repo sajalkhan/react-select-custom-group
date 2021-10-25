@@ -1,4 +1,4 @@
-@import "../../styles/index.scss";
+@import '../../styles/index.scss';
 
 @mixin multiValue {
   min-height: 28px !important;
@@ -12,7 +12,7 @@
   span {
     margin-left: 0 !important;
     font-size: 11px;
-    font-weight: xd-font-weight("bold");
+    font-weight: xd-font-weight('bold');
     line-height: 28px;
     color: $color-white;
   }
@@ -28,7 +28,7 @@
     width: 18px;
     height: 18px;
     margin: 0 6px 0 10px;
-    background: url("../../images/icons/close-small.svg") no-repeat;
+    background: url('../../images/icons/close-small.svg') no-repeat;
     transform: translate(0, 8px);
 
     &:hover {
@@ -40,8 +40,8 @@
 
 .a-react-select {
   $root-parent: &;
-  $dur-input: ".css-b8ldur-Input"; // Other two state on focus come from react-select
-  $disabled-input: ".css-1bwsx9e-Input"; // Disabled state on focus come from react-select
+  $dur-input: '.css-b8ldur-Input'; // Other two state on focus come from react-select
+  $disabled-input: '.css-1bwsx9e-Input'; // Disabled state on focus come from react-select
 
   &__multi-value,
   &--invalid__multi-value {
@@ -138,8 +138,7 @@
     padding: 0 5px 0 0;
     margin-top: 0 !important;
     border-radius: 8px !important;
-    box-shadow: 1px 0 1px 0 hsl(0deg 0% 0% / 10%),
-      0 4px 11px hsl(0deg 0% 0% / 10%) !important;
+    box-shadow: 1px 0 1px 0 hsl(0deg 0% 0% / 10%), 0 4px 11px hsl(0deg 0% 0% / 10%) !important;
 
     &-list {
       display: flex;
@@ -173,7 +172,7 @@
     &-heading {
       padding: 0 0 9px !important;
       font-size: 12px !important;
-      font-weight: xd-font-weight("bold") !important;
+      font-weight: xd-font-weight('bold') !important;
       line-height: 17px;
     }
   }

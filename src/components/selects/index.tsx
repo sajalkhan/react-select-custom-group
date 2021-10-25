@@ -1,13 +1,13 @@
-import React from "react";
-import Select, { components, ValueType, ActionMeta } from "react-select";
-import { Icon } from "../icon";
-import { mapModifiers, ModifierProp } from "../../libs/component";
-import { OptionTypes } from "../../App";
-import "./index.scss";
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import Select, { components, ValueType, ActionMeta } from 'react-select';
+import { mapModifiers, ModifierProp } from '../../libs/component';
+import { OptionTypes } from '../../App';
+import { Icon } from '../icon';
+import './index.scss';
 
 export interface SelectProps {
   placeholder?: string;
-  modifiers?: ModifierProp<"invalid">;
+  modifiers?: ModifierProp<'invalid'>;
   disabled?: boolean;
   defaultItems?: OptionTypes[];
   defaultMenuIsOpen?: boolean;
@@ -16,21 +16,14 @@ export interface SelectProps {
     options: OptionTypes[];
   }[];
   handleModal?: (value: string) => void;
-  onChange?: (
-    value: ValueType<OptionTypes, boolean>,
-    actionMeta: ActionMeta<OptionTypes>
-  ) => void;
+  onChange?: (value: ValueType<OptionTypes, boolean>, actionMeta: ActionMeta<OptionTypes>) => void;
 }
 
 const DropdownIndicator = (props: any) => {
   return (
     components.DropdownIndicator && (
       <components.DropdownIndicator {...props}>
-        {props.selectProps.menuIsOpen ? (
-          <Icon name="arrow-up" />
-        ) : (
-          <Icon name="arrow-down" />
-        )}
+        {props.selectProps.menuIsOpen ? <Icon name="arrow-up" /> : <Icon name="arrow-down" />}
       </components.DropdownIndicator>
     )
   );
@@ -46,6 +39,25 @@ export const Selects: React.FC<SelectProps> = ({
   handleModal,
   onChange,
 }) => {
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const [menuIsOpen, setMenuIsOpen] = useState<boolean | undefined>(undefined);
+
+  const handleClickOutside = useCallback((e: MouseEvent) => {
+    const modal = document.querySelector<HTMLDivElement>('.modal'); //check modal is open or not
+    const rootEl = divRef?.current;
+
+    if (rootEl && !rootEl.contains(e.target as HTMLElement)) {
+      modal ? setMenuIsOpen(true) : setMenuIsOpen(undefined);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
   const formatOptionLabel = ({ label, alert }: OptionTypes) => (
     <div className="a-react-select--item">
       <div>
@@ -55,7 +67,7 @@ export const Selects: React.FC<SelectProps> = ({
       {alert && (
         <Icon
           name="alert"
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             handleModal && handleModal(label);
           }}
@@ -64,25 +76,28 @@ export const Selects: React.FC<SelectProps> = ({
     </div>
   );
 
-  const className = mapModifiers("a-react-select", modifiers);
+  const className = mapModifiers('a-react-select', modifiers);
 
   return (
-    <Select
-      isMulti
-      className={className}
-      classNamePrefix={"a-react-select"}
-      placeholder={placeholder}
-      defaultValue={defaultItems}
-      defaultMenuIsOpen={defaultMenuIsOpen}
-      options={groupedOptions}
-      getOptionValue={(option: { label: string }) => option.label}
-      isDisabled={disabled}
-      isClearable={false}
-      closeMenuOnSelect={false}
-      components={{ DropdownIndicator }}
-      formatOptionLabel={formatOptionLabel}
-      onChange={onChange}
-      noOptionsMessage={() => "選択肢がありません"}
-    />
+    <div ref={divRef}>
+      <Select
+        className={className}
+        classNamePrefix={'a-react-select'}
+        placeholder={placeholder}
+        defaultValue={defaultItems}
+        defaultMenuIsOpen={defaultMenuIsOpen}
+        options={groupedOptions}
+        getOptionValue={(option: { label: string }) => option.label}
+        isDisabled={disabled}
+        isClearable={false}
+        closeMenuOnSelect={false}
+        isMulti
+        menuIsOpen={menuIsOpen}
+        components={{ DropdownIndicator }}
+        formatOptionLabel={formatOptionLabel}
+        onChange={onChange}
+        noOptionsMessage={() => '選択肢がありません'}
+      />
+    </div>
   );
 };
