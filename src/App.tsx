@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Selects } from './components/selects';
 import { groupedOptions } from './data/data';
-
+import Modal from './components/modal';
+import './index.scss';
 export interface OptionTypes {
   label: string;
   value: string;
@@ -10,10 +11,12 @@ export interface OptionTypes {
 
 const App = () => {
   const [items, setSelectedItems] = useState<string[]>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
-  const openModal = (value: string) => {
-    var answer = window.confirm(`${value}  -- save`);
-    console.log('answer -- ', value, ' -- ', answer);
+  const openModal = (value: string, open: boolean) => {
+    setModalOpen(open);
+    setMessage(value);
   };
 
   const handleSelecteditems = (optionSelected: any) => {
@@ -26,35 +29,24 @@ const App = () => {
   };
 
   return (
-    <div style={{ marginTop: '10%', padding: '50px' }}>
+    <div className="p-react-select">
       <Selects
         groupedOptions={groupedOptions}
         placeholder="選択してください。"
-        handleModal={openModal}
-        defaultItems={[groupedOptions[0]?.options[0], groupedOptions[1]?.options[0]]}
-      />
-      <br />
-      <Selects
-        groupedOptions={groupedOptions}
-        placeholder="Please Select.."
-        disabled={true}
-        defaultItems={[groupedOptions[0]?.options[0], groupedOptions[1]?.options[0]]}
-      />
-      <br />
-      <Selects
+        handleModal={e => openModal(e, true)}
         onChange={handleSelecteditems}
-        groupedOptions={groupedOptions}
-        placeholder="Please Select.."
-        modifiers="invalid"
+        // disabled={true}
+        // defaultItems={[groupedOptions[0]?.options[0], groupedOptions[1]?.options[0]]}
       />
-      <br />
-      <label style={{ color: 'green', fontSize: '20px' }}>Selected Items:</label>
+
+      <label className="p-react-select__label">Selected Items:</label>
       {items.map((i: string, indx: number) => (
         <ul key={indx}>
-          <li style={{ fontWeight: 'bold' }}>{i}</li>
+          <li className="p-react-select__item">{i}</li>
         </ul>
       ))}
-      <br />
+
+      {modalOpen && <Modal message={message} openModal={openModal} />}
     </div>
   );
 };

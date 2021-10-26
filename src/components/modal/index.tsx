@@ -1,33 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './index.scss';
 
 type modal = {
   message?: string;
-  open: boolean;
+  openModal: (message: string, open: boolean) => void;
 };
 
-const Modal = ({ message, open }: modal) => {
-  const [openModal, setOpenModal] = useState<boolean | undefined>(false);
-
-  useEffect(() => {
-    setOpenModal(open);
-  }, [open]);
-
-  return openModal ? (
+const Modal = ({ message, openModal }: modal) => {
+  return (
     <div className="modal">
       <div className="modal__body">
         <p>{message}</p>
         <div className="modal__button">
-          <button className="modal__button__cancle" onClick={() => setOpenModal(false)}>
+          <button className="modal__button__cancle" onClick={() => openModal('close', false)}>
             Cancel
           </button>
-          <button className="modal__button__ok" onClick={() => console.log('click')}>
+          <button className="modal__button__ok" onClick={() => openModal('close', false)}>
             Ok
           </button>
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Modal;

@@ -3,3 +3,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.p-react-select {
+  margin-top: 10%;
+  padding: 50px;
+
+  &__label {
+    color: green;
+    font-size: 20px;
+  }
+
+  &__item {
+    font-weight: bold;
+    margin: 10px 25px;
+  }
+
+  .a-react-select {
+    margin-bottom: 10px;
+  }
+}
