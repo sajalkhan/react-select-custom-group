@@ -13,7 +13,7 @@ const App = () => {
 
   const openModal = (value: string) => {
     var answer = window.confirm(`${value}  -- save`);
-    console.log('answer -- ', answer);
+    console.log('answer -- ', value, ' -- ', answer);
   };
 
   const handleSelecteditems = (optionSelected: any) => {

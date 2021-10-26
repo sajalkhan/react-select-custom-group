@@ -38,6 +38,12 @@
   }
 }
 
+@mixin groupHeading {
+  font-size: 12px !important;
+  font-weight: bold !important;
+  line-height: 17px;
+}
+
 .a-react-select {
   $root-parent: &;
   $dur-input: '.css-b8ldur-Input'; // Other two state on focus come from react-select
@@ -106,11 +112,14 @@
     &:hover,
     &:focus {
       color: $color-primary-purple !important;
-      background-color: $color-base-whitesmoke !important;
     }
 
     &:first-child {
       border-top: 2px solid $color-line-gray !important;
+
+      @include pc() {
+        border-top: none !important;
+      }
     }
   }
 
@@ -118,7 +127,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
     cursor: pointer;
+
+    .a-icon:hover {
+      background-image: url('../../images/icons/info-selected.svg');
+    }
 
     span {
       margin-left: 10px;
@@ -135,6 +149,7 @@
 
   &__menu,
   &--invalid__menu {
+    z-index: 10 !important;
     padding: 0 5px 0 0;
     margin-top: 0 !important;
     border-radius: 8px !important;
@@ -162,6 +177,20 @@
       @include sp() {
         flex-direction: column;
       }
+
+      @include pc() {
+        &--left {
+          justify-content: flex-start;
+        }
+
+        &--right {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    &-notice {
+      width: 100%;
     }
   }
 
@@ -169,11 +198,38 @@
   &--invalid__group {
     width: 100%;
     padding: 16px 20px 0 20px !important;
+
+    @include pc() {
+      width: 50%;
+      padding-top: 0 !important;
+    }
+
     &-heading {
       padding: 0 0 9px !important;
-      font-size: 12px !important;
-      font-weight: xd-font-weight('bold') !important;
-      line-height: 17px;
+      @include groupHeading;
+
+      @include pc() {
+        display: none !important;
+      }
+
+      &--custom {
+        display: flex;
+        justify-content: space-between;
+        margin: 16px 20px 0 20px;
+        @include groupHeading;
+
+        > span {
+          display: inline-block;
+          width: calc((100% - 40px) / 2);
+          padding-bottom: 11px;
+          color: $color-secondary-grey;
+          border-bottom: 2px solid $color-line-gray !important;
+        }
+
+        @include sp() {
+          display: none;
+        }
+      }
     }
   }
 

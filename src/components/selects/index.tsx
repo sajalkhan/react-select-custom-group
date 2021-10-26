@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Select, { components, ValueType, ActionMeta } from 'react-select';
 import { mapModifiers, ModifierProp } from '../../libs/component';
+import { useMediaQuery } from 'react-responsive';
 import { OptionTypes } from '../../App';
 import { Icon } from '../icon';
 import './index.scss';
@@ -25,6 +26,46 @@ const DropdownIndicator = (props: any) => {
       <components.DropdownIndicator {...props}>
         {props.selectProps.menuIsOpen ? <Icon name="arrow-up" /> : <Icon name="arrow-down" />}
       </components.DropdownIndicator>
+    )
+  );
+};
+
+//It's use for custom sticky group heading
+const Menu = (props: any) => {
+  return (
+    <components.Menu {...props}>
+      <div className="a-react-select__group-heading--custom">
+        <span>{props.options[0].label}</span>
+        <span>{props.options[1].label}</span>
+      </div>
+      <div>{props.children}</div>
+    </components.Menu>
+  );
+};
+
+//I have use it when any group items is empty then set his current position
+const GroupHeading = (props: any) => {
+  const menuList = document.querySelector('.a-react-select__menu-list') as HTMLElement;
+  const leftGroupHeading = document.getElementById('react-select-3-group-0-heading') as HTMLElement;
+  const rightGroupHeading = document.getElementById('react-select-3-group-1-heading') as HTMLElement;
+
+  const isMobile = useMediaQuery({ query: `(max-width: 720px)` });
+
+  if (menuList && !isMobile) {
+    if (!leftGroupHeading && rightGroupHeading) {
+      menuList.classList.remove('a-react-select__menu-list--left');
+      menuList.classList.add('a-react-select__menu-list--right');
+    } else if (leftGroupHeading && !rightGroupHeading) {
+      menuList.classList.add('a-react-select__menu-list--left');
+      menuList.classList.remove('a-react-select__menu-list--right');
+    }
+  }
+
+  return (
+    components.GroupHeading && (
+      <components.GroupHeading {...props}>
+        <span>{props.children}</span>
+      </components.GroupHeading>
     )
   );
 };
@@ -93,7 +134,7 @@ export const Selects: React.FC<SelectProps> = ({
         closeMenuOnSelect={false}
         isMulti
         menuIsOpen={menuIsOpen}
-        components={{ DropdownIndicator }}
+        components={{ DropdownIndicator, GroupHeading, Menu }}
         formatOptionLabel={formatOptionLabel}
         onChange={onChange}
         noOptionsMessage={() => '選択肢がありません'}
