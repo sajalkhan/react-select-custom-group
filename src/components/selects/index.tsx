@@ -46,8 +46,8 @@ const Menu = (props: any) => {
 //I have use it when any group items is empty then set his current position
 const GroupHeading = (props: any) => {
   const menuList = document.querySelector('.a-react-select__menu-list') as HTMLElement;
-  const leftGroupHeading = document.getElementById('react-select-3-group-0-heading') as HTMLElement;
-  const rightGroupHeading = document.getElementById('react-select-3-group-1-heading') as HTMLElement;
+  const leftGroupHeading = document.querySelector('div[id$="group-0-heading"]') as HTMLElement;
+  const rightGroupHeading = document.querySelector('div[id$="group-1-heading"]') as HTMLElement;
 
   const isMobile = useMediaQuery({ query: `(max-width: 720px)` });
 
