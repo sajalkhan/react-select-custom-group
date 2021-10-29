@@ -132,7 +132,7 @@ export const Selects: React.FC<SelectProps> = ({
         defaultValue={defaultItems}
         defaultMenuIsOpen={defaultMenuIsOpen}
         options={groupedOptions}
-        getOptionValue={(option: { label: string }) => option.label}
+        getOptionValue={(option: { value: string }) => option.value}
         isDisabled={disabled}
         isClearable={false}
         closeMenuOnSelect={false}
