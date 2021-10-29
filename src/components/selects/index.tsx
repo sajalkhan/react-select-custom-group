@@ -35,8 +35,12 @@ const Menu = (props: any) => {
   return (
     <components.Menu {...props}>
       <div className="a-react-select__group-heading--custom">
-        <span>{props.options[0].label}</span>
-        <span>{props.options[1].label}</span>
+        <p className="a-react-select__group-heading--custom-label">
+          <span>{props.options[0].label}</span>
+        </p>
+        <p className="a-react-select__group-heading--custom-label">
+          <span>{props.options[1].label}</span>
+        </p>
       </div>
       <div>{props.children}</div>
     </components.Menu>

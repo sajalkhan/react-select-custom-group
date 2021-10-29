@@ -225,12 +225,16 @@
         margin: 16px 20px 0 20px;
         @include groupHeading;
 
-        > span {
+        &-label {
           display: inline-block;
           width: calc((100% - 40px) / 2);
           padding-bottom: 11px;
           color: $color-secondary-grey;
           border-bottom: 2px solid $color-line-gray !important;
+
+          > span {
+            margin-left: 15px;
+          }
         }
 
         @include sp() {
