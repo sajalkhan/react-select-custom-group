@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Selects } from './components/selects';
+import { Date as DateView } from './utils/date';
 import { groupedOptions } from './data/data';
 import Modal from './components/modal';
 import './index.scss';
@@ -30,6 +31,18 @@ const App = () => {
 
   return (
     <div className="p-react-select">
+      <div className="p-react-select__date">
+        <div>
+          <span>Japan Time:</span> <DateView date={new Date().toISOString()} timeZone="Asia/Tokyo" />
+        </div>
+        <div>
+          <span>Bangladesh Time:</span> <DateView date={new Date().toISOString()} timeZone="Asia/Dhaka" />
+        </div>
+        <div>
+          <span>America Time:</span> <DateView date={new Date().toISOString()} timeZone="America/New_York" />
+        </div>
+      </div>
+
       <Selects
         groupedOptions={groupedOptions}
         placeholder="選択してください。"

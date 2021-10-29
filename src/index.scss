@@ -18,6 +18,17 @@
     margin: 10px 25px;
   }
 
+  &__date {
+    span {
+      color: blueviolet;
+      font-weight: 700;
+    }
+
+    div:last-child {
+      margin-bottom: 20px;
+    }
+  }
+
   .a-react-select {
     margin-bottom: 10px;
   }
