@@ -33,10 +33,10 @@ const App = () => {
     <div className="p-react-select">
       <div className="p-react-select__date">
         <div>
-          <span>Japan Time:</span> <DateView date={new Date().toISOString()} timeZone="Asia/Tokyo" />
+          <span>Japan Time:</span> <DateView date={new Date()} timeZone="Asia/Tokyo" />
         </div>
         <div>
-          <span>Bangladesh Time:</span> <DateView date={new Date().toISOString()} timeZone="Asia/Dhaka" />
+          <span>Bangladesh Time:</span> <DateView date={new Date()} timeZone="Asia/Dhaka" />
         </div>
         <div>
           <span>America Time:</span> <DateView date={new Date().toISOString()} timeZone="America/New_York" />
