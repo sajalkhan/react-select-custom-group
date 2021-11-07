@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Selects } from './components/selects';
 import { Date as DateView } from './utils/date';
 import { groupedOptions } from './data/data';
@@ -14,6 +14,11 @@ const App = () => {
   const [items, setSelectedItems] = useState<string[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
+  useEffect(() => {
+    setDate(new Date());
+  }, [date]);
 
   const openModal = (value: string, open: boolean) => {
     setModalOpen(open);
@@ -33,13 +38,13 @@ const App = () => {
     <div className="p-react-select">
       <div className="p-react-select__date">
         <div>
-          <span>Japan Time:</span> <DateView date={new Date()} timeZone="Asia/Tokyo" />
+          <span>Japan Time:</span> {date && <DateView date={date} timeZone="Asia/Tokyo" />}
         </div>
         <div>
-          <span>Bangladesh Time:</span> <DateView date={new Date()} timeZone="Asia/Dhaka" />
+          <span>Bangladesh Time:</span> {date && <DateView date={date} timeZone="Asia/Dhaka" />}
         </div>
         <div>
-          <span>America Time:</span> <DateView date={new Date().toISOString()} timeZone="America/New_York" />
+          <span>America Time:</span> {date && <DateView date={date.toISOString()} timeZone="America/New_York" />}
         </div>
       </div>
 

@@ -8,7 +8,7 @@ export interface DateProps {
   timeZone: string;
 }
 
-const normalFormat = 'yyyy/MM/dd HH:mm(EEEEEE)';
+const normalFormat = 'yyyy/MM/dd HH:mm:ss  a (EEEEEE)';
 const noDayFormat = 'yyyy/MM/dd HH:mm';
 const noTimeFormat = 'yyyy/MM/dd';
 
