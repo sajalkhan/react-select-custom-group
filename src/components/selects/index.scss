@@ -177,16 +177,6 @@
       @include sp() {
         flex-direction: column;
       }
-
-      @include pc() {
-        &--left {
-          justify-content: flex-start;
-        }
-
-        &--right {
-          justify-content: flex-end;
-        }
-      }
     }
 
     &-notice {
@@ -273,5 +263,9 @@
   #{$disabled-input} {
     padding: 0 !important;
     margin: 0 4px !important;
+  }
+
+  [id*='option-0-']:last-child {
+    display: none;
   }
 }

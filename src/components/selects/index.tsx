@@ -1,7 +1,6 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import Select, { components, ValueType, ActionMeta } from 'react-select';
 import { mapModifiers, ModifierProp } from '../../libs/component';
-import { useMediaQuery } from 'react-responsive';
 import { OptionTypes } from '../../App';
 import { Icon } from '../icon';
 import './index.scss';
@@ -47,33 +46,6 @@ const Menu = (props: any) => {
   );
 };
 
-//I have use it when any group items is empty then set his current position
-const GroupHeading = (props: any) => {
-  const menuList = document.querySelector('.a-react-select__menu-list') as HTMLElement;
-  const leftGroupHeading = document.querySelector('div[id$="group-0-heading"]') as HTMLElement;
-  const rightGroupHeading = document.querySelector('div[id$="group-1-heading"]') as HTMLElement;
-
-  const isMobile = useMediaQuery({ query: `(max-width: 720px)` });
-
-  if (menuList && !isMobile) {
-    if (!leftGroupHeading && rightGroupHeading) {
-      menuList.classList.remove('a-react-select__menu-list--left');
-      menuList.classList.add('a-react-select__menu-list--right');
-    } else if (leftGroupHeading && !rightGroupHeading) {
-      menuList.classList.add('a-react-select__menu-list--left');
-      menuList.classList.remove('a-react-select__menu-list--right');
-    }
-  }
-
-  return (
-    components.GroupHeading && (
-      <components.GroupHeading {...props}>
-        <span>{props.children}</span>
-      </components.GroupHeading>
-    )
-  );
-};
-
 export const Selects: React.FC<SelectProps> = ({
   groupedOptions,
   defaultItems,
@@ -84,22 +56,31 @@ export const Selects: React.FC<SelectProps> = ({
   handleModal,
   onChange,
 }) => {
-  const divRef = useRef<HTMLDivElement | null>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
   const [menuIsOpen, setMenuIsOpen] = useState<boolean | undefined>(undefined);
 
-  const handleClickOutside = useCallback((e: MouseEvent) => {
-    const modal = document.querySelector<HTMLDivElement>('.modal'); //check modal is open or not
-    const rootEl = divRef?.current;
+  const handleClickOutside = useCallback((e: Event) => {
+    const rootEl = wrapRef?.current;
+    if (rootEl) {
+      const isModalOpened = document.querySelector('.modal') as HTMLElement;
+      const isMenuOpened = rootEl.querySelector('div[class*="menu-is-open"]') as HTMLElement;
+      const Indicator = document.querySelector('.a-react-select__indicators') as HTMLElement;
 
-    if (rootEl && !rootEl.contains(e.target as HTMLElement)) {
-      modal ? setMenuIsOpen(true) : setMenuIsOpen(undefined);
+      if (!rootEl.contains(e.target as HTMLElement)) {
+        isModalOpened && isMenuOpened ? setMenuIsOpen(true) : setMenuIsOpen(undefined);
+      } else {
+        Indicator.addEventListener('touchend', () => setMenuIsOpen(undefined));
+        Indicator.addEventListener('click', () => setMenuIsOpen(undefined));
+      }
     }
   }, []);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [handleClickOutside]);
 
@@ -121,10 +102,14 @@ export const Selects: React.FC<SelectProps> = ({
     </div>
   );
 
+  useLayoutEffect(() => {
+    groupedOptions && groupedOptions[0].options.push({ label: '', value: '' });
+  }, [groupedOptions]);
+
   const className = mapModifiers('a-react-select', modifiers);
 
   return (
-    <div ref={divRef}>
+    <div ref={wrapRef}>
       <Select
         className={className}
         classNamePrefix={'a-react-select'}
@@ -138,7 +123,7 @@ export const Selects: React.FC<SelectProps> = ({
         closeMenuOnSelect={false}
         isMulti
         menuIsOpen={menuIsOpen}
-        components={{ DropdownIndicator, GroupHeading, Menu }}
+        components={{ DropdownIndicator, Menu }}
         formatOptionLabel={formatOptionLabel}
         onChange={onChange}
         noOptionsMessage={() => '選択肢がありません'}
