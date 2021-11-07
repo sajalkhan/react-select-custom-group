@@ -69,11 +69,7 @@ export const Selects: React.FC<SelectProps> = ({
       if (!rootEl.contains(e.target as HTMLElement)) {
         isModalOpened && isMenuOpened ? setMenuIsOpen(true) : setMenuIsOpen(undefined);
       } else {
-        Indicator.addEventListener('touchend', () => {
-          setTimeout(() => {
-            setMenuIsOpen(undefined);
-          }, 0);
-        });
+        Indicator.addEventListener('touchend', () => setTimeout(() => setMenuIsOpen(undefined), 0));
         Indicator.addEventListener('click', () => setMenuIsOpen(undefined));
       }
     }
