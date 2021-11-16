@@ -3,6 +3,7 @@ import { Selects } from './components/selects';
 import { Date as DateView } from './utils/date';
 import { groupedOptions } from './data/data';
 import Modal from './components/modal';
+import { WysiwygEditorV5 } from './components/wysiwyg-editor-v5';
 import './index.scss';
 export interface OptionTypes {
   label: string;
@@ -14,6 +15,7 @@ const App = () => {
   const [items, setSelectedItems] = useState<string[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const [data, setData] = useState<string>('');
 
   const openModal = (value: string, open: boolean) => {
     setModalOpen(open);
@@ -58,6 +60,16 @@ const App = () => {
           <li className="p-react-select__item">{i}</li>
         </ul>
       ))}
+
+      <div className="p-ckeditor">
+        <WysiwygEditorV5
+          size="large"
+          value={data}
+          onChange={value => {
+            setData(value);
+          }}
+        />
+      </div>
 
       {modalOpen && <Modal message={message} openModal={openModal} />}
     </div>
