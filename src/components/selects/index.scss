@@ -42,6 +42,8 @@
   font-size: 12px !important;
   font-weight: bold !important;
   line-height: 17px;
+  color: $color-primary-grey !important;
+  border-bottom: 2px solid $color-line-gray !important;
 }
 
 .a-react-select {
@@ -106,6 +108,7 @@
   &__option,
   &--invalid__option {
     font-size: 14px;
+    cursor: pointer !important;
     background-color: $color-white !important;
     border-top: 1px solid $color-line-gray !important;
 
@@ -115,11 +118,7 @@
     }
 
     &:first-child {
-      border-top: 2px solid $color-line-gray !important;
-
-      @include pc() {
-        border-top: none !important;
-      }
+      border-top: none !important;
     }
   }
 
@@ -174,6 +173,11 @@
         background: $color-secondary-grey;
       }
 
+      @include pc() {
+        position: static !important;
+        padding-top: 38px !important;
+      }
+
       @include sp() {
         flex-direction: column;
       }
@@ -181,55 +185,34 @@
 
     &-notice {
       width: 100%;
+      &--no-options {
+        font-size: 14px;
+        @include pc() {
+          margin-top: -34px;
+        }
+      }
     }
   }
 
   &__group,
   &--invalid__group {
     width: 100%;
-    padding: 16px 20px 0 20px !important;
+    padding: 0 20px 0 20px !important;
 
     @include pc() {
       width: 50%;
       padding-top: 0 !important;
-
-      &:first-child {
-        padding-right: 10px !important;
-      }
-      &:last-child {
-        padding-left: 25px !important;
-      }
     }
 
     &-heading {
-      padding: 0 0 9px !important;
       @include groupHeading;
 
+      padding: 10px 0 9px !important;
+      background-color: $color-base-white;
       @include pc() {
-        display: none !important;
-      }
-
-      &--custom {
-        display: flex;
-        justify-content: space-between;
-        margin: 16px 20px 0 20px;
-        @include groupHeading;
-
-        &-label {
-          display: inline-block;
-          width: calc((100% - 40px) / 2);
-          padding-bottom: 11px;
-          color: $color-secondary-grey;
-          border-bottom: 2px solid $color-line-gray !important;
-
-          > span {
-            margin-left: 15px;
-          }
-        }
-
-        @include sp() {
-          display: none;
-        }
+        position: absolute;
+        top: 0;
+        width: calc(50% - 40px);
       }
     }
   }
@@ -263,9 +246,5 @@
   #{$disabled-input} {
     padding: 0 !important;
     margin: 0 4px !important;
-  }
-
-  [id*='option-0-']:last-child {
-    display: none;
   }
 }
